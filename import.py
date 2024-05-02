@@ -20,42 +20,59 @@ ollama_ef = embedding_functions.OllamaEmbeddingFunction(
 
 path = getconfig()["files_path"]
 dir_list = os.listdir(path)
-starttime = time.time()
+i=0
+while True:
+  i+=1
+  starttime = time.time()
 
-for file in dir_list:
-  filename = path + file
-  text = readtext(filename)
-  chunks = chunk_text_by_sentences(source_text=text, sentences_per_chunk=7, overlap=0 )
-  print(f"with {len(chunks)} chunks")
-  for index, chunk in enumerate(chunks):
-    #Switch from direct ollama ebedding to chromadb embedding using ollama wrapper
-    #https://docs.trychroma.com/embeddings/ollama
-    embed = ollama.embeddings(model=embedmodel, prompt=chunk)['embedding']
-    #embed = ollama_ef(chunk)
-    print(".", end="", flush=True)
-    #collection.add([filename+str(index)], [embed], documents=[chunk], metadatas={"source": filename})
-    collection.add(
-      [filename+str(index)], 
-      [embed], 
-      documents=[chunk],
-      metadatas={"source": filename}
-      )
-
-with open('sourcedocs.txt') as f:
-  lines = f.readlines()
-  for filename in lines:
+  for file in dir_list:
+    filename = path + file
     text = readtext(filename)
-    chunks = chunk_text_by_sentences(source_text=text, sentences_per_chunk=7, overlap=0 )
+    chunks = chunk_text_by_sentences(source_text=text, sentences_per_chunk=7, overlap=0)
     print(f"with {len(chunks)} chunks")
     for index, chunk in enumerate(chunks):
+      chunk_hash = hash(chunk)
+
+      if collection.get(where={"$and":[{'hash':chunk_hash},{'source':filename}]})['ids'] != []:
+      #if collection.get(where={'hash':chunk_hash})['ids'] != []:
+        print("Skipping chunk with hash "+str(chunk_hash))
+        continue
+
+      #Switch from direct ollama ebedding to chromadb embedding using ollama wrapper
+      #https://docs.trychroma.com/embeddings/ollama
       embed = ollama.embeddings(model=embedmodel, prompt=chunk)['embedding']
+      #embed = ollama_ef(chunk)
       print(".", end="", flush=True)
       collection.add(
         [filename+str(index)], 
         [embed], 
-        documents=[chunk], 
-        metadatas={"source": filename}
+        documents=[chunk],
+        metadatas={"source": filename, "hash":chunk_hash}
         )
-  
-  print("--- %s seconds ---" % (time.time() - starttime))
 
+  with open('sourcedocs.txt') as f:
+    lines = f.readlines()
+    for filename in lines:
+      text = readtext(filename)
+      chunks = chunk_text_by_sentences(source_text=text, sentences_per_chunk=7, overlap=0 )
+      print(f"with {len(chunks)} chunks")
+      for index, chunk in enumerate(chunks):
+        chunk_hash = hash(chunk)
+
+        if collection.get(where={"$and":[{'hash':chunk_hash},{'source':filename}]})['ids'] != []:
+        #if collection.get(where={'hash':chunk_hash})['ids'] != []:
+          print("Skipping chunk with hash "+str(chunk_hash))
+          continue
+
+        embed = ollama.embeddings(model=embedmodel, prompt=chunk)['embedding']
+        print(".", end="", flush=True)
+        collection.add(
+          [filename+str(index)], 
+          [embed], 
+          documents=[chunk], 
+          metadatas={"source": filename, "hash":chunk_hash}
+          )
+    
+    print("--- %s seconds ---" % (time.time() - starttime))
+    print("Iteration "+str(i)+" completed.  Sleeping...")
+    time.sleep(10)
