@@ -6,6 +6,8 @@ This is a sample Retrieval Augmented Generation [RAG](https://blogs.nvidia.com/b
 
 **search.py** takes a query, generates an embedding of the query using Ollama, and pulles a list of similar information back from ChromaDB where the embeddings are stored (using [cosign](https://docs.trychroma.com/usage-guide#changing-the-distance-function)).  It then takes that information and your original query, and asks the LLM a question (through Fastchat).
 
+![trafficflow.](/Images/trafficflow.png))
+
 ## Install and run ChromaDB
 
 ChromaDB is used as a database to store embeddings.
