@@ -6,8 +6,8 @@ openai.api_key = "EMPTY"
 openai.base_url = "http://"+getconfig()["fastchat_host"]+":"+getconfig()["fastchat_port"]+"/v1/"
 fastchat_model = getconfig()["fastchat_model"]
 
-embedmodel = getconfig()["embedmodel"]
-mainmodel = getconfig()["mainmodel"]
+embedmodel = getconfig()["embedding_model"]
+
 chroma = chromadb.HttpClient(host=getconfig()["chroma_host"], port=getconfig()["chroma_port"])
 collection = chroma.get_or_create_collection("buildragwithpython")
 

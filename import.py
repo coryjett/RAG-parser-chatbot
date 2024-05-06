@@ -12,7 +12,8 @@ if any(collection.name == collectionname for collection in chroma.list_collectio
   chroma.delete_collection(collectionname)
 collection = chroma.get_or_create_collection(name=collectionname, metadata={"hnsw:space": "cosine"})
 
-embedmodel = getconfig()["embedmodel"]
+embedmodel = getconfig()["embedding_model"]
+
 ollama_ef = embedding_functions.OllamaEmbeddingFunction(
     url="http://"+getconfig()["ollama_host"]+":"+getconfig()["ollama_port"]+"/api/embeddings",
     model_name=embedmodel,
