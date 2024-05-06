@@ -34,13 +34,8 @@ while True:
       chunk_hash = hash(chunk)
 
       if collection.get(where={"$and":[{'hash':chunk_hash},{'source':filename}]})['ids'] != []:
-      #if collection.get(where={'hash':chunk_hash})['ids'] != []:
-        #print("Skipping chunk with hash "+str(chunk_hash))
         continue
 
-      #Switch from direct ollama ebedding to chromadb embedding using ollama wrapper
-      #https://docs.trychroma.com/embeddings/ollama
-      #embed = ollama.embeddings(model=embedmodel, prompt=chunk)['embedding']
       embed = ollama_ef(chunk)
       print(".", end="", flush=True)
       collection.add(
@@ -60,15 +55,13 @@ while True:
         chunk_hash = hash(chunk)
 
         if collection.get(where={"$and":[{'hash':chunk_hash},{'source':filename}]})['ids'] != []:
-        #if collection.get(where={'hash':chunk_hash})['ids'] != []:
-          #print("Skipping chunk with hash "+str(chunk_hash))
           continue
 
-        embed = ollama.embeddings(model=embedmodel, prompt=chunk)['embedding']
+        embed = ollama_ef(chunk)
         print(".", end="", flush=True)
         collection.add(
           [filename+str(index)], 
-          [embed], 
+          [embed][0], 
           documents=[chunk], 
           metadatas={"source": filename, "hash":chunk_hash}
           )

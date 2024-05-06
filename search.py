@@ -1,8 +1,10 @@
-import ollama, sys, chromadb, openai
+import sys, chromadb, openai
 from utilities import getconfig
 import chromadb.utils.embedding_functions as embedding_functions
 
-openai.api_base = ""
+openai.api_key = "EMPTY"
+openai.base_url = "http://"+getconfig()["fastchat_host"]+":"+getconfig()["fastchat_port"]+"/v1/"
+fastchat_model = getconfig()["fastchat_model"]
 
 embedmodel = getconfig()["embedmodel"]
 mainmodel = getconfig()["mainmodel"]
@@ -14,21 +16,18 @@ ollama_ef = embedding_functions.OllamaEmbeddingFunction(
     model_name=embedmodel,
 )
 
-#ollama_ef = embedding_functions.OllamaEmbeddingFunction(
-#    url="http://localhost:11434/api/embeddings",
-#    model_name=embedmodel,
-#)
-
 query = " ".join(sys.argv[1:])
-#queryembed = ollama.embeddings(model=embedmodel, prompt=query)['embedding']
 queryembed = ollama_ef(query)
 
 relevantdocs = collection.query(query_embeddings=[queryembed[0]], n_results=10)["documents"][0]
 docs = "\n\n".join(relevantdocs)
 modelquery = f"{query} - Answer that question using the following text as a resource: {docs}"
 
-stream = ollama.generate(model=mainmodel, prompt=modelquery, stream=True)
+completion = openai.chat.completions.create(
+  model=fastchat_model,
+  messages=[
+      {"role": "user", "content": modelquery}
+      ]
+)
 
-for chunk in stream:
-  if chunk["response"]:
-    print(chunk['response'], end='', flush=True)
+print(completion.choices[0].message.content)
