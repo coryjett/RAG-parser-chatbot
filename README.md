@@ -1,5 +1,10 @@
 # RAG-parser-chatbot
 
+This is a sample Retrieval Augmented Generation [RAG](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) generative AI importer and search application.
+
+**import.py** takes a list of URLs and a directory of documents, generates [embeddings](https://aws.amazon.com/what-is/embeddings-in-machine-learning/) using Ollama, and stores them in ChromaDB.
+
+**search.py** takes a query, generates an embedding of the query using Ollama, and pulles a list of similar information back from ChromaDB where the embeddings are stored (using [cosign](https://docs.trychroma.com/usage-guide#changing-the-distance-function)).  It then takes that information and your original query, and asks the LLM a question (through Fastchat).
 
 ## Install and run ChromaDB
 
