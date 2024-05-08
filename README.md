@@ -44,6 +44,8 @@ Ollama provies an API that is used to generate embeddings.
 
 https://ollama.com/
 
+`ollama pull nomic-embed-text`
+
 `$env:OLLAMA_HOST="0.0.0.0"`
 
 `ollama serve`
