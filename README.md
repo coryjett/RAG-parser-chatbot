@@ -14,6 +14,8 @@ ChromaDB is used as a database to store embeddings.
 
 https://www.trychroma.com/
 
+If on Windows: Install VSbuildtools [link to instructions](https://github.com/bycloudai/InstallVSBuildToolsWindows)
+
 `pip install chromadb`
 
 `chroma.exe run --host IP_ADDR --port 8001 --path ./my_chroma_data`
@@ -41,8 +43,6 @@ https://github.com/lm-sys/FastChat
 Ollama provies an API that is used to generate embeddings.
 
 https://ollama.com/
-
-If on Windows: Install VSbuildtools [link to instructions](https://github.com/bycloudai/InstallVSBuildToolsWindows)
 
 `$env:OLLAMA_HOST="0.0.0.0"`
 
