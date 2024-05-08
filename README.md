@@ -82,11 +82,11 @@ Add/remove URLs to/from `sourcedocs.txt`
 
 This will run continually and pick up new changes.
 
-`python3 import.py`
+`python import.py`
 
 
 ## Run the search engine
 
-`python3 search.py "query"`
+`python search.py "query"`
 
-eg. `python3 search.py "How are models stored on the filesystem?  Explain in detail."`
+eg. `python search.py "How are models stored on the filesystem?  Explain in detail."`
