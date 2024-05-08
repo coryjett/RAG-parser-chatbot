@@ -51,6 +51,17 @@ https://ollama.com/
 `ollama serve`
 
 
+## Other stuff
+
+Windows: Install libmagic https://github.com/pidydx/libmagicwin64
+
+Install nltk (Natural Language Toolkit)
+pip install nltk
+
+Check CUDA version:
+nvidia-smi
+
+
 ## Edit config.ini
 
 Modify models, hosts, ports, and the embedding collection to the appropriate values.
