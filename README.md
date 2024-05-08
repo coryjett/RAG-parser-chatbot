@@ -51,15 +51,17 @@ https://ollama.com/
 `ollama serve`
 
 
-## Other stuff
+## Other pre-run things
 
-Windows: Install libmagic https://github.com/pidydx/libmagicwin64
+### Install libmagic 
 
-Install nltk (Natural Language Toolkit)
-pip install nltk
+Windows: https://github.com/pidydx/libmagicwin64
 
-Check CUDA version:
-nvidia-smi
+Mac: `brew install libmagic`
+
+### Nvidia stuff
+
+Check CUDA version: `nvidia-smi`
 
 
 ## Edit config.ini
