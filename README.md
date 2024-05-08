@@ -27,13 +27,13 @@ Fastchat provides a scalable controller/worker model and API for serving LLM bas
 
 https://github.com/lm-sys/FastChat
 
-`pip3 install "fschat[model_worker,webui]"`
+`pip install "fschat[model_worker,webui]"`
 
 `python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
 
-`python3 -m fastchat.serve.controller`
+`python -m fastchat.serve.controller`
 
-`python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-7b-v1.5`
+`python -m fastchat.serve.model_worker --model-path lmsys/vicuna-7b-v1.5`
 
 `python -m fastchat.serve.openai_api_server --host IP_ADDR --port 8000`
 
