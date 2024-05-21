@@ -64,7 +64,7 @@ Mac: `brew install libmagic`
 Check CUDA version: `nvidia-smi`
 
 
-## Edit config.ini
+## Edit ./config.ini
 
 Modify models, hosts, ports, and the embedding collection to the appropriate values.
 
