@@ -7,7 +7,8 @@ collectionname=getconfig()["collection_name"]
 
 chroma = chromadb.HttpClient(host=getconfig()["chroma_host"], port=getconfig()["chroma_port"])
 print(chroma.list_collections())
-if any(collection.name == collectionname for collection in chroma.list_collections()):
+#if any(collection.name == collectionname for collection in chroma.list_collections()):
+if (collectionname == chroma.get_collection(collectionname).name):
   print('deleting collection')
   chroma.delete_collection(collectionname)
 collection = chroma.get_or_create_collection(name=collectionname, metadata={"hnsw:space": "cosine"})
