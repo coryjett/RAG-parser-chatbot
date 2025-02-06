@@ -59,6 +59,18 @@ Windows: https://github.com/pidydx/libmagicwin64
 
 Mac: `brew install libmagic`
 
+### Download `punkt_tab` nltk data
+
+https://www.nltk.org/data.html#interactive-installer
+
+
+Run `python`
+
+```
+import nltk
+nltk.download('punkt_tab')
+```
+
 ### Nvidia stuff
 
 Check CUDA version: `nvidia-smi`
